@@ -10,7 +10,7 @@ public:
 
 	std::string FindByName(const std::string& name);
 	std::string FindByPhone(const std::string& phone);
-	//std::vector<std::string> FindByPhonePattern(const std::string& phone_pattern) const;
+	std::vector<std::string> FindByPhonePattern(const std::string& phone_pattern) const;
 private:
 	Trie names;
 	Trie phones;

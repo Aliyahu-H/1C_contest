@@ -30,7 +30,7 @@ public:
 	
 	Node* AddString(const std::string& s, Node* bridge_);
 
-	Node* Find(const std::string& s) const;
+	std::vector<Node*> Find(const std::string& s, Node* start, int i) const;
 	std::string ReturnKey(Node* leaf) const;
 private:
 	Node* add_char(const std::string& s, int i, Node* current, Node* bridge_);

@@ -99,14 +99,37 @@ Node* Trie::AddString(const std::string& s, Node* bridge_ = nullptr) {
 	return leaf;
 }
 
-Node* Trie::Find(const std::string& s) const {
-	Node* current = root.get();
-
-	for(int i = 0; i < s.size(); ++i) {
-		current = current->FindChild(s[i]);
+std::vector<Node*> Trie::Find(const std::string& s, Node* start, int i) const {
+	std::vector<Node*> answer;
+	Node* current;
+	if (start == nullptr) {
+		current = root.get();
+	}
+	else {
+		current = start;
 	}
 
-	return current->bridge;
+	for(; i < s.size(); ++i) {
+		if (s[i] == '*') {
+			for (const auto& child : current->children) {
+				for (auto u : Find(s, child.second.get(), i + 1)) {
+					answer.push_back(u);
+				}
+			}
+			break;
+		}
+		current = current->FindChild(s[i]);
+		if (current == nullptr) {
+			answer.push_back(nullptr);
+			break;
+		}
+	}
+
+	if (i == s.size()) {
+		answer.push_back(current);
+	}
+
+	return answer;
 }
 
 std::string Trie::ReturnKey(Node* leaf) const {
